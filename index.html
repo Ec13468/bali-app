@@ -74,15 +74,18 @@
         <!-- IDR Input Section -->
         <section class="space-y-4">
             <div class="flex justify-between items-end">
-                <label class="text-xs uppercase font-bold text-lime-400">Amount (IDR in k)</label>
+                <label class="text-xs uppercase font-bold text-lime-400">Insert Amount</label>
                 <span class="text-[10px] opacity-50">100 = 100,000</span>
             </div>
             <div class="relative group">
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold opacity-30 group-focus-within:opacity-100 group-focus-within:text-lime-400">
+                    IDR
+                </div>
                 <input 
                     type="number" 
                     inputmode="decimal"
                     x-model="idrKInput"
-                    class="w-full bg-transparent border-4 border-white p-6 text-5xl font-black focus:border-lime-400 focus:outline-none transition-colors"
+                    class="w-full bg-transparent border-4 border-white p-6 pl-20 text-5xl font-black focus:border-lime-400 focus:outline-none transition-colors"
                     placeholder="0"
                 >
                 <div class="absolute right-12 top-1/2 -translate-y-1/2 text-2xl font-bold opacity-30 group-focus-within:opacity-100 group-focus-within:text-lime-400">
@@ -171,20 +174,16 @@
 
             <div class="space-y-2">
                 <div class="flex justify-between items-end">
-                    <p class="text-[10px] opacity-70 uppercase tracking-wider">2. Enter shop rate (IDR in k per 1 <span x-text="selectedShopCurrency"></span>):</p>
-                    <span class="text-[8px] opacity-50">e.g. 15.8 = 15,800</span>
+                    <p class="text-[10px] opacity-70 uppercase tracking-wider">2. Enter shop rate (IDR per 1 <span x-text="selectedShopCurrency"></span>):</p>
                 </div>
                 <div class="relative group">
                     <input 
                         type="number"
                         inputmode="decimal"
                         x-model="shopRate"
-                        :placeholder="selectedShopCurrency === 'USD' ? '15.8' : '0.48'"
-                        class="w-full bg-black border-2 border-white p-3 pr-12 text-xl font-bold focus:border-lime-400 focus:outline-none"
+                        :placeholder="selectedShopCurrency === 'USD' ? '15800' : '480'"
+                        class="w-full bg-black border-2 border-white p-3 text-xl font-bold focus:border-lime-400 focus:outline-none"
                     >
-                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-lg font-bold opacity-30 group-focus-within:opacity-100 group-focus-within:text-lime-400">
-                        k
-                    </div>
                 </div>
             </div>
             
@@ -323,7 +322,7 @@
                 comparison() {
                     if (!this.shopRate || !this.rates || !this.rates[this.selectedShopCurrency]) return null;
                     const officialCurrPerIdr = this.rates[this.selectedShopCurrency];
-                    const shopIdrPerCurr = (parseFloat(this.shopRate) || 0) * 1000;
+                    const shopIdrPerCurr = (parseFloat(this.shopRate) || 0);
                     const officialIdrPerCurr = 1 / officialCurrPerIdr;
                     
                     const diff = shopIdrPerCurr - officialIdrPerCurr;
